@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.quackimpala7321.crm.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractCauldronMixin",
+    "RecipeManagerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
