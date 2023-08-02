@@ -14,7 +14,6 @@ public class CauldronRecipesMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CauldronRecipesMod.LOGGER.info("e");
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(CAULDRON_RECIPE_MANAGER);
     }
 }
