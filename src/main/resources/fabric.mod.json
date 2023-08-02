@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "crm",
   "version": "${version}",
-  "name": "CauldronRecipesMod",
+  "name": "Cauldron Recipes",
   "description": "Library for throw-in cauldron recipes.",
   "authors": [
     "QuackImpala7321"
