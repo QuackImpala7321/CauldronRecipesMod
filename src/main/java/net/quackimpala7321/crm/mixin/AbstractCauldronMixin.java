@@ -38,7 +38,7 @@ public class AbstractCauldronMixin {
     @Unique
     private static final Predicate<ItemEntity> ANY = itemEntity -> true;
 
-    @Inject(method = "onUse", at = @At("HEAD"))
+    @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
     public void onUseMixin(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if(world.isClient
                 || !(thisBlock instanceof LeveledCauldronBlock)
@@ -70,14 +70,15 @@ public class AbstractCauldronMixin {
         List<ItemStack> input = new ArrayList<>();
         itemEntities.forEach(itemEntity -> input.add(itemEntity.getStack()));
         input.sort(Comparator.comparing(ItemStack::getTranslationKey));
+
         List<CauldronRecipe> matchingRecipes = CauldronRecipesMod.CAULDRON_RECIPE_MANAGER.getRecipes().values().stream().filter(recipe -> ItemStackUtil.equalsList(recipe.getInput(), input)).toList();
         if(matchingRecipes.isEmpty()) return;
         CauldronRecipe recipe = matchingRecipes.get(0);
 
-        double xVelocity = 0.15 - (world.random.nextDouble() * 0.3);
-        double zVelocity = 0.15 - (world.random.nextDouble() * 0.3);
-
         ServerWorld serverWorld = (ServerWorld) world;
+        double xVelocity = 0.15 - (serverWorld.random.nextDouble() * 0.3);
+        double zVelocity = 0.15 - (serverWorld.random.nextDouble() * 0.3);
+
         ItemEntity outputEntity = new ItemEntity(world,
                 pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
                 recipe.getOutput());
@@ -89,6 +90,8 @@ public class AbstractCauldronMixin {
         serverWorld.spawnEntity(outputEntity);
         player.addExperience(recipe.getExperience());
         this.spawnSuccessParticles(serverWorld, pos);
+
+        cir.setReturnValue(ActionResult.success(player.handSwinging));
     }
 
     @Unique

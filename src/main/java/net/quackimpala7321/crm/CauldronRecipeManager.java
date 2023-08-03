@@ -60,6 +60,7 @@ public class CauldronRecipeManager extends SinglePreparationResourceReloader<Map
 
     @Override
     protected Map<Identifier, CauldronRecipe> prepare(ResourceManager manager, Profiler profiler) {
+        CauldronRecipesMod.LOGGER.info("Loading cauldron recipes");
         Map<Identifier, CauldronRecipe> preparedRecipes = new HashMap<>();
 
         for (var resourceEntry : manager.findResources("recipes", identifier -> identifier.getPath().endsWith(".json")).entrySet()) {
@@ -83,5 +84,6 @@ public class CauldronRecipeManager extends SinglePreparationResourceReloader<Map
     protected void apply(Map<Identifier, CauldronRecipe> prepared, ResourceManager manager, Profiler profiler) {
         this.recipes.clear();
         this.recipes.putAll(prepared);
+        CauldronRecipesMod.LOGGER.info("Loaded cauldron recipes");
     }
 }

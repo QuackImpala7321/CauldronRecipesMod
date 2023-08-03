@@ -18,6 +18,7 @@ import java.util.Objects;
 
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
+    // This makes the recipe map ignore the cauldron recipes
     @Inject(
             method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V",
             at = @At("HEAD")
